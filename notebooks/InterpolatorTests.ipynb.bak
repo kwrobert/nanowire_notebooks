@@ -1,0 +1,131 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/home/kyle_robertson/.virtualenvs/nanowire/lib/python3.5/site-packages/IPython/config.py:13: ShimWarning: The `IPython.config` package has been deprecated since IPython 4.0. You should import from traitlets.config instead.\n",
+      "  \"You should import from traitlets.config instead.\", ShimWarning)\n",
+      "/home/kyle_robertson/.virtualenvs/nanowire/lib/python3.5/site-packages/ipycache.py:17: UserWarning: IPython.utils.traitlets has moved to a top-level traitlets package.\n",
+      "  from IPython.utils.traitlets import Unicode\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os\n",
+    "import numpy as np\n",
+    "from nanowire.optics.simulate import Simulator\n",
+    "from nanowire.optics.postprocess import Simulation\n",
+    "from nanowire.optics.utils.utils import setup_sim\n",
+    "from nanowire.optics.utils.config import Config\n",
+    "from nanowire.optics.utils.geometry import *\n",
+    "import scipy.constants as consts\n",
+    "import scipy.integrate as intg\n",
+    "import IPython.display as disp\n",
+    "import matplotlib.pyplot as plt\n",
+    "plt.style.use(['presentation'])\n",
+    "%load_ext autoreload \n",
+    "%autoreload 2\n",
+    "%load_ext ipycache"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "conf = Config('interpolator.yml')\n",
+    "sim = Simulator(conf)\n",
+    "sim.setup()\n",
+    "Zo = consts.physical_constants['characteristic impedance of vacuum'][0]\n",
+    "sim.load_state()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [],
+   "source": [
+    "sim.get_field()\n",
+    "sim.save_state()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "dict_keys(['xcoords', 'Ez', 'zcoords', 'ycoords', 'Ex', 'Ey'])\n",
+      "97.2619965252\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(sim.data.keys())\n",
+    "normEsq = np.abs(sim.data['Ex'])**2 + np.abs(sim.data['Ey'])**2 + np.abs(sim.data['Ez'])**2\n",
+    "print(np.amax(normEsq))\n",
+    "sim.data['normEsq'] = normEsq\n",
+    "sim.add_interpolator('normEsq')"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "nanowire",
+   "language": "python",
+   "name": "nanowire"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.5.2"
+  },
+  "toc": {
+   "colors": {
+    "hover_highlight": "#DAA520",
+    "running_highlight": "#FF0000",
+    "selected_highlight": "#FFD700"
+   },
+   "moveMenuLeft": true,
+   "nav_menu": {
+    "height": "4px",
+    "width": "254px"
+   },
+   "navigate_menu": true,
+   "number_sections": true,
+   "sideBar": true,
+   "threshold": 4,
+   "toc_cell": false,
+   "toc_section_display": "block",
+   "toc_window_display": false
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 1
+}

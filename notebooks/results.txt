@@ -1,0 +1,27 @@
+# xy = 300, z = 900
+-------------------------
+Layer: Substrate
+Flux Method: (0.01930155010722023+0j)
+Integral Method: 0.019147054913328222
+Diff: (0.00015449519389200764+0j)
+Percent Diff: (0.8004289450007169+0j)
+-------------------------
+Layer: ITO
+Flux Method: (0.0046033629980801695+0j)
+Integral Method: 0.004545744668592142
+Diff: (5.761832948802774e-05+0j)
+Percent Diff: (1.2516573103632591+0j)
+-------------------------
+Layer: Air
+Flux Method: 0j
+Integral Method: 0.0
+Diff: 0j
+Percent Diff: (nan+nanj)
+-------------------------
+Layer: NW_AlShell
+Flux Method: (0.04329499337807376+0j)
+Integral Method: 0.044107125030579966
+Diff: (-0.0008121316525062094+0j)
+Percent Diff: (1.875809624023419+0j)
+-------------------------
+Total Percent Difference: (0.8928853632774406+0j)
